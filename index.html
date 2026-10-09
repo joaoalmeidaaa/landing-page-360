@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- PERSONALIZAR: nome do produto, WhatsApp e contato (procure por "PERSONALIZAR") -->
+<title>Gestão 360º — Sistema de gestão</title>
+<meta name="description" content="Gestão 360º: sistema de gestão para clínicas e negócios de atendimento: clientes, tratamentos, sessões, agenda, termo de consentimento em PDF, financeiro e estoque em um só lugar.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<script>document.documentElement.classList.add('js');</script>
+<style>
+  /* Tema: dourado como cor primária do Bootstrap */
+  :root {
+    --bs-primary: #b8963e;
+    --bs-primary-rgb: 184, 150, 62;
+    --bs-primary-text-emphasis: #8a6d24;
+    --bs-primary-bg-subtle: #f3ead2;
+    --bs-primary-border-subtle: #e0d3b2;
+    --bs-body-color: #2b2b2b;
+    --bs-body-bg: #f8f6f1;
+    --bs-secondary-color: #6f6a60;
+    --bs-border-color: #ebe6db;
+    --bs-link-color-rgb: 138, 109, 36;
+    --bs-body-font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    --escuro: #1c1a17;
+    --sombra: 0 10px 30px rgba(43, 34, 15, .08);
+  }
+  body { overflow-x: hidden; }
+  h1, h2, .fonte-titulo { font-family: "Playfair Display", Georgia, serif; font-weight: 600; }
+  .rotulo { font-size: .76rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--bs-primary-text-emphasis); }
+  .bg-escuro { background: var(--escuro); }
+  .bg-escuro .text-body-secondary { color: #b9b2a3 !important; }
+  .bg-escuro .rotulo { color: var(--bs-primary); }
+  .destaque {
+    font-style: italic;
+    background: linear-gradient(90deg, #8a6d24, #d9b860, #8a6d24); background-size: 200% auto;
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    animation: brilho 4s linear infinite;
+  }
+
+  /* Botões */
+  .btn-dourado {
+    --bs-btn-color: #fff; --bs-btn-bg: #b8963e; --bs-btn-border-color: #b8963e;
+    --bs-btn-hover-color: #fff; --bs-btn-hover-bg: #8a6d24; --bs-btn-hover-border-color: #8a6d24;
+    --bs-btn-active-bg: #7a6020; --bs-btn-active-border-color: #7a6020; --bs-btn-active-color: #fff;
+    position: relative; overflow: hidden; box-shadow: 0 6px 18px rgba(184, 150, 62, .35); font-weight: 600;
+  }
+  .btn-dourado::after {
+    content: ""; position: absolute; top: 0; left: -60%; width: 40%; height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255, 255, 255, .45), transparent);
+    transform: skewX(-20deg); animation: reflexo 3.5s ease-in-out infinite;
+  }
+  .btn-outline-dourado {
+    --bs-btn-color: #8a6d24; --bs-btn-border-color: #b8963e; --bs-btn-hover-color: #8a6d24;
+    --bs-btn-hover-bg: #f3ead2; --bs-btn-hover-border-color: #b8963e; --bs-btn-active-bg: #f3ead2;
+    --bs-btn-active-color: #8a6d24; --bs-btn-active-border-color: #b8963e; font-weight: 600;
+  }
+  .btn { transition: transform .2s, background .2s, box-shadow .2s; }
+  .btn:hover { transform: translateY(-2px); }
+
+  /* Topo */
+  .navbar { background: rgba(248, 246, 241, .9); backdrop-filter: blur(8px); }
+
+  /* Abertura */
+  .hero { position: relative; }
+  .hero::before, .hero::after {
+    content: ""; position: absolute; border-radius: 50%; filter: blur(60px); z-index: -1; opacity: .55;
+    animation: flutuar 9s ease-in-out infinite;
+  }
+  .hero::before { width: 340px; height: 340px; background: #ecdcb0; top: -60px; right: 8%; }
+  .hero::after { width: 260px; height: 260px; background: #f3e7cd; bottom: 0; left: 2%; animation-delay: -4s; }
+  .entrada > * { animation: subir .8s cubic-bezier(.2, .7, .2, 1) both; }
+  .entrada > *:nth-child(2) { animation-delay: .1s; }
+  .entrada > *:nth-child(3) { animation-delay: .2s; }
+  .entrada > *:nth-child(4) { animation-delay: .3s; }
+  .entrada > *:nth-child(5) { animation-delay: .4s; }
+  .hero .janela { animation: subir 1s .3s cubic-bezier(.2, .7, .2, 1) both, flutuar 7s 1.3s ease-in-out infinite; }
+
+  /* Janelas de demonstração (telas ilustrativas) */
+  .janela { box-shadow: var(--sombra); font-size: .8rem; overflow: hidden; }
+  .janela .card-header { background: #faf8f3; }
+  .janela .card-header .ponto { width: 9px; height: 9px; border-radius: 50%; background: #e2dccf; }
+  .kpi { transition: transform .2s, border-color .2s; }
+  .kpi:hover { transform: translateY(-3px); border-color: var(--bs-primary) !important; }
+  .badge { font-weight: 600; }
+  .badge-alerta { animation: pulsar 2s ease-in-out infinite; }
+  .hora { min-width: 40px; }
+  .linha + .linha { border-top: 1px dashed var(--bs-border-color); }
+  .progress-bar { background: linear-gradient(90deg, #b8963e, #d9b860); transition: width 1.4s cubic-bezier(.2, .7, .2, 1) .3s; }
+  .js .revelar:not(.visivel) .progress-bar { width: 0 !important; }
+  .papel .linha-texto { height: 6px; background: #eee9de; border-radius: 3px; }
+  .assinatura { border-top: 1px solid var(--bs-body-color); }
+  .variavel { background: var(--bs-primary-bg-subtle); color: var(--bs-primary-text-emphasis); padding: 0 4px; border-radius: 4px; font-weight: 600; }
+  .barras { height: 110px; }
+  .barras span { border-radius: 4px 4px 0 0; transform-origin: bottom; transition: transform 1s cubic-bezier(.2, .7, .2, 1); }
+  .js .revelar:not(.visivel) .barras span { transform: scaleY(0); }
+
+  /* Cartões de módulos */
+  .card-modulo { transition: transform .25s, box-shadow .25s, border-color .25s; }
+  .card-modulo:hover { box-shadow: var(--sombra); border-color: var(--bs-primary-border-subtle); }
+  .icone { width: 44px; height: 44px; font-size: 1.25rem; transition: transform .3s; }
+  .card-modulo:hover .icone { transform: rotate(-8deg) scale(1.1); }
+
+  /* Como funciona */
+  .fluxo { position: relative; }
+  .passo-icone {
+    width: 60px; height: 60px; border: 1.5px solid var(--bs-primary); background: var(--escuro);
+    font-size: 1.4rem; position: relative; z-index: 1; transition: background .25s, color .25s, transform .25s;
+  }
+  .passo:hover .passo-icone { background: var(--bs-primary); color: var(--escuro) !important; transform: scale(1.08); }
+  @media (min-width: 768px) {
+    .fluxo::before { content: ""; position: absolute; top: 30px; left: 10%; right: 10%; height: 1px; background: rgba(184, 150, 62, .25); }
+    .fluxo::after {
+      content: ""; position: absolute; top: 29px; left: 10%; width: 80%; height: 3px; border-radius: 3px;
+      background: linear-gradient(90deg, transparent, #b8963e, transparent) no-repeat; background-size: 30% 100%;
+      animation: percorrer 3.5s linear infinite;
+    }
+  }
+  .selo-seguranca { border: 1px solid rgba(184, 150, 62, .35); color: #eee8dc; transition: background .25s, border-color .25s; }
+  .selo-seguranca:hover { background: rgba(184, 150, 62, .15); border-color: var(--bs-primary); }
+
+  /* Celulares pequenos */
+  @media (max-width: 399.98px) {
+    .btn-lg { --bs-btn-font-size: 1.05rem; }
+    .hero-acoes .btn { width: 100%; }
+    .row-cols-5 .badge { font-size: .62em; padding-left: .4em; padding-right: .4em; }
+  }
+
+  /* Convite final */
+  .cta-caixa {
+    background: linear-gradient(135deg, #1c1a17, #2d2820, #1c1a17); background-size: 200% 200%;
+    animation: degrade 10s ease infinite; border: 1px solid rgba(184, 150, 62, .35); color: #eee8dc;
+  }
+  .cta-caixa .rotulo { color: var(--bs-primary); }
+  .cta-caixa p { color: #b9b2a3; max-width: 540px; }
+
+  /* Revelar ao rolar (só com JavaScript ativo; sem JS tudo aparece normalmente) */
+  .js .revelar { opacity: 0; transform: translateY(28px); transition: opacity .8s ease, transform .8s cubic-bezier(.2, .7, .2, 1); }
+  .js .revelar.visivel { opacity: 1; transform: none; }
+  .js .card-modulo.revelar.visivel:hover { transform: translateY(-5px); transition-delay: 0s; }
+  .atraso-1 { transition-delay: .1s !important; }
+  .atraso-2 { transition-delay: .2s !important; }
+  .atraso-3 { transition-delay: .3s !important; }
+  .atraso-4 { transition-delay: .4s !important; }
+
+  @keyframes subir { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: none; } }
+  @keyframes flutuar { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+  @keyframes brilho { to { background-position: 200% center; } }
+  @keyframes reflexo { 0%, 60% { left: -60%; } 100% { left: 130%; } }
+  @keyframes pulsar { 0%, 100% { box-shadow: 0 0 0 0 rgba(154, 107, 0, .35); } 50% { box-shadow: 0 0 0 5px rgba(154, 107, 0, 0); } }
+  @keyframes percorrer { from { background-position: -40% 0; } to { background-position: 140% 0; } }
+  @keyframes degrade { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+
+  /* Quem prefere menos movimento */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .js .revelar { opacity: 1; transform: none; }
+    .js .revelar .progress-bar { width: 50% !important; }
+    .js .revelar .barras span { transform: none; }
+  }
+
+  /* Impressão / Salvar como PDF: sem animações, tudo visível */
+  @media print {
+    @page { size: A4; margin: 12mm; }
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; animation: none !important; transition: none !important; }
+    body { font-size: 12px; background: #fff; }
+    .navbar, .hero-acoes, .cta-caixa .btn, .hero::before, .hero::after, .fluxo::after { display: none !important; }
+    .js .revelar { opacity: 1 !important; transform: none !important; }
+    .js .revelar .progress-bar { width: 50% !important; }
+    .js .revelar .barras span { transform: none !important; }
+    .destaque { color: #8a6d24; background: none; }
+    section { padding-top: 1.5rem !important; padding-bottom: 1.5rem !important; }
+    .quebra { break-before: page; }
+    .card, .passo { break-inside: avoid; box-shadow: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="navbar sticky-top border-bottom">
+  <div class="container">
+    <!-- PERSONALIZAR: nome do produto -->
+    <a class="navbar-brand d-flex align-items-center gap-2 fonte-titulo fs-5" href="#inicio">
+      Gestão 360º
+    </a>
+    <!-- PERSONALIZAR: número do WhatsApp (somente dígitos, com 55 + DDD) -->
+    <a class="btn btn-dourado btn-sm rounded-pill px-3" href="https://wa.me/5511981717965?text=Ol%C3%A1!%20Quero%20conhecer%20o%20sistema%20de%20gest%C3%A3o." target="_blank" rel="noopener"><i class="bi bi-whatsapp"></i><span class="d-none d-sm-inline ms-1">Agendar demonstração</span></a>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ABERTURA -->
+  <section class="hero py-5" id="inicio">
+    <div class="container py-lg-4">
+      <div class="row align-items-center gx-4 gy-5 gx-xl-5">
+        <div class="col-lg-6 col-xl-5 entrada">
+          <span class="rotulo d-block mb-2">Gestão completa para clínicas e negócios de atendimento</span>
+          <h1 class="display-5 mb-3">Seu negócio organizado, do <span class="destaque">primeiro atendimento</span> ao fechamento do mês.</h1>
+          <p class="lead text-body-secondary">Clientes, tratamentos, agenda, termo de consentimento, financeiro e estoque em um só lugar. Direto no navegador do computador ou do celular.</p>
+          <div class="hero-acoes d-flex flex-wrap gap-2 my-4">
+            <a class="btn btn-dourado btn-lg rounded-pill px-4" href="https://wa.me/5511981717965?text=Ol%C3%A1!%20Quero%20conhecer%20o%20sistema%20de%20gest%C3%A3o." target="_blank" rel="noopener"><i class="bi bi-whatsapp me-1"></i> Quero uma demonstração</a>
+            <a class="btn btn-outline-dourado btn-lg rounded-pill px-4" href="#modulos">Ver funcionalidades</a>
+          </div>
+          <ul class="list-inline small text-body-secondary mb-0">
+            <li class="list-inline-item me-3"><i class="bi bi-check2-circle text-primary me-1"></i>Sem instalar nada</li>
+            <li class="list-inline-item me-3"><i class="bi bi-check2-circle text-primary me-1"></i>Funciona no celular</li>
+            <li class="list-inline-item"><i class="bi bi-check2-circle text-primary me-1"></i>Com a identidade da sua marca</li>
+          </ul>
+        </div>
+
+        <div class="col-lg-6 col-xl-7">
+          <div class="card janela rounded-4" aria-label="Exemplo da tela inicial do sistema">
+            <div class="card-header d-flex align-items-center gap-1 py-2"><span class="ponto"></span><span class="ponto"></span><span class="ponto"></span><small class="ms-2 text-body-secondary">Início</small></div>
+            <div class="card-body">
+              <div class="fonte-titulo fs-6 mb-3">Bom dia! Este é o resumo de hoje.</div>
+              <div class="row row-cols-2 row-cols-sm-4 row-cols-lg-2 row-cols-xl-4 g-2 mb-2">
+                <div class="col"><div class="kpi border rounded-3 p-2 h-100"><i class="bi bi-people text-primary float-end"></i><small class="d-block text-body-secondary">Clientes ativos</small><strong class="fs-5" data-contar="128">128</strong></div></div>
+                <div class="col"><div class="kpi border rounded-3 p-2 h-100"><i class="bi bi-stars text-primary float-end"></i><small class="d-block text-body-secondary">Tratamentos ativos</small><strong class="fs-5" data-contar="46">46</strong></div></div>
+                <div class="col"><div class="kpi border rounded-3 p-2 h-100"><i class="bi bi-calendar-check text-primary float-end"></i><small class="d-block text-body-secondary">Sessões hoje</small><strong class="fs-5" data-contar="7">7</strong></div></div>
+                <div class="col"><div class="kpi border rounded-3 p-2 h-100"><i class="bi bi-wallet2 text-primary float-end"></i><small class="d-block text-body-secondary">Saldo do mês</small><strong class="fs-5 text-success text-nowrap">R$ <span data-contar="18420" data-milhar>18.420</span></strong></div></div>
+              </div>
+              <div class="row g-2">
+                <div class="col-sm-7">
+                  <div class="border rounded-3 p-2 h-100">
+                    <div class="fw-semibold small mb-1">Próximas sessões</div>
+                    <div class="linha d-flex align-items-center gap-2 py-1"><span class="hora fw-semibold text-primary-emphasis">09:00</span><span class="flex-grow-1">Mariana Costa<small class="d-block text-body-secondary">Limpeza de pele · 2/4</small></span><span class="badge rounded-pill bg-info-subtle text-info-emphasis">Agendada</span></div>
+                    <div class="linha d-flex align-items-center gap-2 py-1"><span class="hora fw-semibold text-primary-emphasis">10:30</span><span class="flex-grow-1">Juliana Alves<small class="d-block text-body-secondary">Drenagem linfática · 5/10</small></span><span class="badge rounded-pill bg-info-subtle text-info-emphasis">Agendada</span></div>
+                    <div class="linha d-flex align-items-center gap-2 py-1"><span class="hora fw-semibold text-primary-emphasis">14:00</span><span class="flex-grow-1">Camila Rocha<small class="d-block text-body-secondary">Microagulhamento · 1/3</small></span><span class="badge rounded-pill bg-info-subtle text-info-emphasis">Agendada</span></div>
+                  </div>
+                </div>
+                <div class="col-sm-5">
+                  <div class="border rounded-3 p-2 h-100">
+                    <div class="fw-semibold small mb-1">Financeiro do mês</div>
+                    <div class="d-flex justify-content-between"><span>Entradas</span><b class="text-success">R$ 26.350</b></div>
+                    <div class="d-flex justify-content-between"><span>Saídas</span><b class="text-danger">R$ 7.930</b></div>
+                    <div class="fw-semibold small mt-2 mb-1">Estoque</div>
+                    <div class="d-flex justify-content-between align-items-center"><span>Ácido hialurônico</span><span class="badge rounded-pill bg-warning-subtle text-warning-emphasis badge-alerta">No mínimo</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MÓDULOS -->
+  <section id="modulos" class="py-5 bg-white border-top border-bottom">
+    <div class="container py-lg-4">
+      <div class="text-center mx-auto mb-5 revelar" style="max-width: 680px">
+        <span class="rotulo d-block mb-2">Tudo em um só lugar</span>
+        <h2>8 módulos para a rotina do seu negócio</h2>
+        <p class="text-body-secondary mb-0">Cada parte conversa com as outras: a cliente leva ao tratamento, o tratamento às sessões, as sessões à agenda.</p>
+      </div>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-3">
+        <div class="col"><div class="card card-modulo h-100 rounded-4 revelar"><div class="card-body p-4"><div class="icone rounded-3 bg-primary-subtle text-primary-emphasis d-flex align-items-center justify-content-center mb-3"><i class="bi bi-speedometer2"></i></div><h3 class="h6 fw-semibold">Painel inicial</h3><p class="small text-body-secondary mb-0">Sessões do dia, saldo do mês e alertas de estoque assim que você entra.</p></div></div></div>
+        <div class="col"><div class="card card-modulo h-100 rounded-4 revelar atraso-1"><div class="card-body p-4"><div class="icone rounded-3 bg-primary-subtle text-primary-emphasis d-flex align-items-center justify-content-center mb-3"><i class="bi bi-people"></i></div><h3 class="h6 fw-semibold">Clientes</h3><p class="small text-body-secondary mb-0">CPF validado e sem duplicidade, idade calculada e histórico de tratamentos.</p></div></div></div>
+        <div class="col"><div class="card card-modulo h-100 rounded-4 revelar atraso-2"><div class="card-body p-4"><div class="icone rounded-3 bg-primary-subtle text-primary-emphasis d-flex align-items-center justify-content-center mb-3"><i class="bi bi-list-stars"></i></div><h3 class="h6 fw-semibold">Procedimentos</h3><p class="small text-body-secondary mb-0">Seu catálogo, com valor de referência e termo próprio de cada procedimento.</p></div></div></div>
+        <div class="col"><div class="card card-modulo h-100 rounded-4 revelar atraso-3"><div class="card-body p-4"><div class="icone rounded-3 bg-primary-subtle text-primary-emphasis d-flex align-items-center justify-content-center mb-3"><i class="bi bi-stars"></i></div><h3 class="h6 fw-semibold">Tratamentos</h3><p class="small text-body-secondary mb-0">Pacotes com sessões geradas sozinhas, valor por sessão e progresso.</p></div></div></div>
+        <div class="col"><div class="card card-modulo h-100 rounded-4 revelar"><div class="card-body p-4"><div class="icone rounded-3 bg-primary-subtle text-primary-emphasis d-flex align-items-center justify-content-center mb-3"><i class="bi bi-calendar3"></i></div><h3 class="h6 fw-semibold">Agenda</h3><p class="small text-body-secondary mb-0">O dia por horário: agende, conclua ou marque falta, com aviso de conflito.</p></div></div></div>
+        <div class="col"><div class="card card-modulo h-100 rounded-4 revelar atraso-1"><div class="card-body p-4"><div class="icone rounded-3 bg-primary-subtle text-primary-emphasis d-flex align-items-center justify-content-center mb-3"><i class="bi bi-file-earmark-text"></i></div><h3 class="h6 fw-semibold">Termo em PDF</h3><p class="small text-body-secondary mb-0">Termo de consentimento preenchido com os dados da cliente, pronto para assinar.</p></div></div></div>
+        <div class="col"><div class="card card-modulo h-100 rounded-4 revelar atraso-2"><div class="card-body p-4"><div class="icone rounded-3 bg-primary-subtle text-primary-emphasis d-flex align-items-center justify-content-center mb-3"><i class="bi bi-wallet2"></i></div><h3 class="h6 fw-semibold">Financeiro</h3><p class="small text-body-secondary mb-0">Entradas e saídas por categoria e forma de pagamento, com saldo automático.</p></div></div></div>
+        <div class="col"><div class="card card-modulo h-100 rounded-4 revelar atraso-3"><div class="card-body p-4"><div class="icone rounded-3 bg-primary-subtle text-primary-emphasis d-flex align-items-center justify-content-center mb-3"><i class="bi bi-box-seam"></i></div><h3 class="h6 fw-semibold">Estoque</h3><p class="small text-body-secondary mb-0">Entradas, saídas e ajustes, com alerta quando o insumo chega ao mínimo.</p></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECURSOS EM DESTAQUE -->
+  <section class="py-5 quebra">
+    <div class="container py-lg-4">
+      <div class="text-center mx-auto mb-5 revelar" style="max-width: 680px">
+        <span class="rotulo d-block mb-2">Por dentro do sistema</span>
+        <h2 class="mb-0">O sistema faz as contas por você</h2>
+      </div>
+      <div class="row row-cols-1 row-cols-lg-2 g-4">
+
+        <div class="col revelar">
+          <h3 class="fonte-titulo h4">Cada sessão do pacote sob controle</h3>
+          <p class="text-body-secondary">Informe as sessões e o valor total: o sistema cria as sessões, calcula o valor de cada uma e conclui o tratamento sozinho.</p>
+          <div class="card janela rounded-4">
+            <div class="card-header d-flex align-items-center gap-1 py-2"><span class="ponto"></span><span class="ponto"></span><span class="ponto"></span><small class="ms-2 text-body-secondary">Tratamento</small></div>
+            <div class="card-body">
+              <div class="d-flex align-items-center gap-2"><span class="flex-grow-1"><b>Drenagem linfática</b><small class="d-block text-body-secondary">Juliana Alves · 10 sessões · R$ 150,00 por sessão</small></span><span class="badge rounded-pill bg-info-subtle text-info-emphasis">Ativo</span></div>
+              <div class="d-flex justify-content-between mt-3"><small>Progresso</small><small><b>5 de 10</b> concluídas</small></div>
+              <div class="progress my-1" style="height: 8px" role="progressbar" aria-label="Progresso do tratamento" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"><div class="progress-bar" style="width: 50%"></div></div>
+              <div class="row row-cols-5 g-1 mt-2 text-center">
+                <div class="col"><div class="border rounded-2 p-1"><b class="d-block">1</b><span class="badge rounded-pill bg-success-subtle text-success-emphasis">Feita</span></div></div>
+                <div class="col"><div class="border rounded-2 p-1"><b class="d-block">2</b><span class="badge rounded-pill bg-success-subtle text-success-emphasis">Feita</span></div></div>
+                <div class="col"><div class="border rounded-2 p-1"><b class="d-block">3</b><span class="badge rounded-pill bg-danger-subtle text-danger-emphasis">Faltou</span></div></div>
+                <div class="col"><div class="border rounded-2 p-1"><b class="d-block">4</b><span class="badge rounded-pill bg-success-subtle text-success-emphasis">Feita</span></div></div>
+                <div class="col"><div class="border rounded-2 p-1"><b class="d-block">5</b><span class="badge rounded-pill bg-success-subtle text-success-emphasis">Feita</span></div></div>
+                <div class="col"><div class="border rounded-2 p-1"><b class="d-block">6</b><span class="badge rounded-pill bg-success-subtle text-success-emphasis">Feita</span></div></div>
+                <div class="col"><div class="border rounded-2 p-1"><b class="d-block">7</b><span class="badge rounded-pill bg-info-subtle text-info-emphasis">Agend.</span></div></div>
+                <div class="col"><div class="border rounded-2 p-1"><b class="d-block">8</b><span class="badge rounded-pill bg-secondary-subtle text-secondary-emphasis">Pend.</span></div></div>
+                <div class="col"><div class="border rounded-2 p-1"><b class="d-block">9</b><span class="badge rounded-pill bg-secondary-subtle text-secondary-emphasis">Pend.</span></div></div>
+                <div class="col"><div class="border rounded-2 p-1"><b class="d-block">10</b><span class="badge rounded-pill bg-secondary-subtle text-secondary-emphasis">Pend.</span></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col revelar atraso-1">
+          <h3 class="fonte-titulo h4">O dia inteiro em uma tela</h3>
+          <p class="text-body-secondary">Sessões em ordem de horário, resumo por status e aviso quando dois atendimentos caem no mesmo horário.</p>
+          <div class="card janela rounded-4">
+            <div class="card-header d-flex align-items-center gap-1 py-2"><span class="ponto"></span><span class="ponto"></span><span class="ponto"></span><small class="ms-2 text-body-secondary">Agenda</small></div>
+            <div class="card-body">
+              <div class="d-flex flex-wrap gap-1 mb-2">
+                <span class="badge rounded-pill bg-info-subtle text-info-emphasis">2 agendadas</span><span class="badge rounded-pill bg-success-subtle text-success-emphasis">2 concluídas</span><span class="badge rounded-pill bg-danger-subtle text-danger-emphasis">1 falta</span>
+              </div>
+              <div class="linha d-flex align-items-center gap-2 py-1"><span class="hora fw-semibold text-primary-emphasis">08:00</span><span class="flex-grow-1">Beatriz Lima<small class="d-block text-body-secondary">Hidra gloss · 1 de 1</small></span><span class="badge rounded-pill bg-success-subtle text-success-emphasis">Concluída</span></div>
+              <div class="linha d-flex align-items-center gap-2 py-1"><span class="hora fw-semibold text-primary-emphasis">09:00</span><span class="flex-grow-1">Mariana Costa<small class="d-block text-body-secondary">Limpeza de pele · 2 de 4</small></span><span class="badge rounded-pill bg-success-subtle text-success-emphasis">Concluída</span></div>
+              <div class="linha d-flex align-items-center gap-2 py-1"><span class="hora fw-semibold text-primary-emphasis">10:30</span><span class="flex-grow-1">Renata Souza<small class="d-block text-body-secondary">Massagem modeladora · 6 de 8</small></span><span class="badge rounded-pill bg-danger-subtle text-danger-emphasis">Faltou</span></div>
+              <div class="linha d-flex align-items-center gap-2 py-1"><span class="hora fw-semibold text-primary-emphasis">14:00</span><span class="flex-grow-1">Camila Rocha<small class="d-block text-body-secondary">Microagulhamento · 1 de 3</small></span><span class="badge rounded-pill bg-info-subtle text-info-emphasis">Agendada</span></div>
+              <div class="linha d-flex align-items-center gap-2 py-1"><span class="hora fw-semibold text-primary-emphasis">17:00</span><span class="flex-grow-1">Fernanda Reis<small class="d-block text-body-secondary">Terapia capilar · 4 de 6</small></span><span class="badge rounded-pill bg-info-subtle text-info-emphasis">Agendada</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col revelar">
+          <h3 class="fonte-titulo h4">Termo de consentimento preenchido sozinho</h3>
+          <p class="text-body-secondary">Escreva o termo uma vez com campos como <span class="variavel">[NOME]</span> e <span class="variavel">[CPF]</span>. O PDF sai pronto, com campo para responsável legal.</p>
+          <div class="card janela papel rounded-4" aria-label="Exemplo do termo de consentimento em PDF">
+            <div class="card-body px-4">
+              <div class="fonte-titulo text-center fs-6 mb-2">Termo de Consentimento</div>
+              <div class="row row-cols-2 g-1 bg-body-tertiary rounded-2 p-2 mx-0 mb-2">
+                <div class="col"><b>Cliente:</b> Camila Rocha</div><div class="col"><b>CPF:</b> 123.456.789-09</div>
+                <div class="col"><b>Idade:</b> 32 anos</div><div class="col"><b>Procedimento:</b> Microagulhamento</div>
+              </div>
+              <p class="mb-2">Eu, <b>Camila Rocha</b>, declaro que fui informada sobre o procedimento de <b>Microagulhamento</b>, seus cuidados e possíveis reações...</p>
+              <div class="linha-texto mb-2"></div><div class="linha-texto mb-2" style="width:85%"></div><div class="linha-texto" style="width:60%"></div>
+              <div class="row g-4 text-center text-body-secondary small mt-2">
+                <div class="col"><div class="assinatura pt-1">Assinatura da cliente</div></div>
+                <div class="col"><div class="assinatura pt-1">Responsável legal</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col revelar atraso-1">
+          <h3 class="fonte-titulo h4">Quanto entrou, quanto saiu, quanto sobrou</h3>
+          <p class="text-body-secondary">Lançamentos por categoria e forma de pagamento, ligados à cliente ou ao tratamento, com calendário mensal e saldo automático.</p>
+          <div class="card janela rounded-4">
+            <div class="card-header d-flex align-items-center gap-1 py-2"><span class="ponto"></span><span class="ponto"></span><span class="ponto"></span><small class="ms-2 text-body-secondary">Financeiro</small></div>
+            <div class="card-body">
+              <div class="d-flex justify-content-between flex-wrap gap-1">
+                <b>Outubro</b>
+                <small><span class="text-success">+ R$ 26.350</span> · <span class="text-danger">− R$ 7.930</span> · <b>R$ 18.420</b></small>
+              </div>
+              <div class="barras d-flex align-items-end gap-2 mt-3 border-bottom" aria-hidden="true">
+                <div class="d-flex align-items-end gap-1 flex-fill h-100"><span class="flex-fill bg-success-subtle border border-success-subtle" style="height:55%"></span><span class="flex-fill bg-danger-subtle border border-danger-subtle" style="height:30%"></span></div>
+                <div class="d-flex align-items-end gap-1 flex-fill h-100"><span class="flex-fill bg-success-subtle border border-success-subtle" style="height:70%"></span><span class="flex-fill bg-danger-subtle border border-danger-subtle" style="height:22%"></span></div>
+                <div class="d-flex align-items-end gap-1 flex-fill h-100"><span class="flex-fill bg-success-subtle border border-success-subtle" style="height:62%"></span><span class="flex-fill bg-danger-subtle border border-danger-subtle" style="height:35%"></span></div>
+                <div class="d-flex align-items-end gap-1 flex-fill h-100"><span class="flex-fill bg-success-subtle border border-success-subtle" style="height:88%"></span><span class="flex-fill bg-danger-subtle border border-danger-subtle" style="height:26%"></span></div>
+              </div>
+              <div class="d-flex justify-content-between small text-body-secondary mt-1"><span>Semana 1</span><span>Semana 2</span><span>Semana 3</span><span>Semana 4</span></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <p class="small text-body-secondary text-center mt-4 mb-0">Telas ilustrativas com dados fictícios.</p>
+    </div>
+  </section>
+
+  <!-- COMO FUNCIONA + SEGURANÇA -->
+  <section class="py-5 bg-escuro text-light">
+    <div class="container py-lg-4">
+      <div class="text-center mx-auto mb-5 revelar" style="max-width: 680px">
+        <span class="rotulo d-block mb-2">Como funciona</span>
+        <h2 class="mb-0">Do cadastro ao caixa, sem retrabalho</h2>
+      </div>
+      <div class="row row-cols-2 row-cols-md-5 g-4 justify-content-center text-center fluxo mb-5">
+        <div class="col passo revelar"><div class="passo-icone rounded-circle text-primary d-flex align-items-center justify-content-center mx-auto mb-3"><i class="bi bi-person-plus"></i></div><h3 class="h6 fw-semibold">Cadastre a cliente</h3><p class="small text-body-secondary mb-0">Dados validados.</p></div>
+        <div class="col passo revelar atraso-1"><div class="passo-icone rounded-circle text-primary d-flex align-items-center justify-content-center mx-auto mb-3"><i class="bi bi-stars"></i></div><h3 class="h6 fw-semibold">Crie o tratamento</h3><p class="small text-body-secondary mb-0">Procedimento, sessões e valor.</p></div>
+        <div class="col passo revelar atraso-2"><div class="passo-icone rounded-circle text-primary d-flex align-items-center justify-content-center mx-auto mb-3"><i class="bi bi-file-earmark-check"></i></div><h3 class="h6 fw-semibold">Emita o termo</h3><p class="small text-body-secondary mb-0">PDF pronto para assinar.</p></div>
+        <div class="col passo revelar atraso-3"><div class="passo-icone rounded-circle text-primary d-flex align-items-center justify-content-center mx-auto mb-3"><i class="bi bi-calendar-check"></i></div><h3 class="h6 fw-semibold">Agende as sessões</h3><p class="small text-body-secondary mb-0">Acompanhe na agenda.</p></div>
+        <div class="col passo revelar atraso-4"><div class="passo-icone rounded-circle text-primary d-flex align-items-center justify-content-center mx-auto mb-3"><i class="bi bi-graph-up-arrow"></i></div><h3 class="h6 fw-semibold">Lance no financeiro</h3><p class="small text-body-secondary mb-0">Saldo sempre atualizado.</p></div>
+      </div>
+      <div class="text-center mb-3 revelar">
+        <span class="rotulo d-block mb-2">Segurança</span>
+        <h2>Os dados do seu negócio protegidos</h2>
+      </div>
+      <div class="d-flex flex-wrap justify-content-center gap-2 revelar">
+        <span class="selo-seguranca rounded-pill px-3 py-2 small"><i class="bi bi-shield-lock text-primary me-2"></i>Login com senha criptografada</span>
+        <span class="selo-seguranca rounded-pill px-3 py-2 small"><i class="bi bi-hand-index text-primary me-2"></i>Bloqueio após tentativas erradas</span>
+        <span class="selo-seguranca rounded-pill px-3 py-2 small"><i class="bi bi-hourglass-split text-primary me-2"></i>Saída automática por inatividade</span>
+        <span class="selo-seguranca rounded-pill px-3 py-2 small"><i class="bi bi-clock-history text-primary me-2"></i>Histórico preservado</span>
+        <span class="selo-seguranca rounded-pill px-3 py-2 small"><i class="bi bi-database-check text-primary me-2"></i>Backup do banco de dados</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONVITE FINAL -->
+  <section class="py-5">
+    <div class="container py-lg-4">
+      <div class="cta-caixa rounded-5 text-center px-3 py-5 p-md-5 revelar">
+        <span class="rotulo d-block mb-2">Vamos conversar?</span>
+        <h2 class="text-white">Veja o Gestão 360º funcionando no seu negócio</h2>
+        <p class="mx-auto mb-4">Agende uma demonstração sem compromisso. Cuidamos da configuração, da identidade visual e do treinamento.</p>
+        <a class="btn btn-dourado btn-lg rounded-pill px-4" href="https://wa.me/5511981717965?text=Ol%C3%A1!%20Quero%20conhecer%20o%20sistema%20de%20gest%C3%A3o." target="_blank" rel="noopener"><i class="bi bi-whatsapp me-1"></i> Falar no WhatsApp</a>
+        <!-- PERSONALIZAR: contato (aparece também no PDF) -->
+        <p class="mx-auto mt-4 mb-0 small">WhatsApp (11) 98171-7965 · <a href="mailto:jv78al@gmail.com" class="link-light">jv78al@gmail.com</a></p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="border-top py-4 small text-body-secondary">
+  <div class="container d-flex flex-wrap justify-content-between gap-2">
+    <!-- PERSONALIZAR: nome do produto/empresa -->
+    <span>© 2026 Gestão 360º. Todos os direitos reservados.</span>
+    <span>Gestão 360º — sistema de gestão para clínicas e negócios de atendimento</span>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var reduzir = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Contadores do painel: sobem de 0 até o valor final.
+    function contar(el) {
+      var fim = Number(el.dataset.contar);
+      var milhar = el.hasAttribute('data-milhar');
+      var inicio = null;
+      function passo(t) {
+        if (!inicio) inicio = t;
+        var p = Math.min((t - inicio) / 1600, 1);
+        var valor = Math.round(fim * (1 - Math.pow(1 - p, 3)));
+        el.textContent = milhar ? valor.toLocaleString('pt-BR') : valor;
+        if (p < 1) requestAnimationFrame(passo);
+      }
+      requestAnimationFrame(passo);
+    }
+    if (!reduzir) {
+      setTimeout(function () {
+        document.querySelectorAll('[data-contar]').forEach(contar);
+      }, 500);
+    }
+
+    // Revela os blocos conforme aparecem na tela.
+    var blocos = document.querySelectorAll('.revelar');
+    if (reduzir || !('IntersectionObserver' in window)) {
+      blocos.forEach(function (b) { b.classList.add('visivel'); });
+      return;
+    }
+    var observador = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('visivel');
+          observador.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    blocos.forEach(function (b) { observador.observe(b); });
+
+    // Ao imprimir/salvar como PDF, garante tudo visível.
+    window.addEventListener('beforeprint', function () {
+      blocos.forEach(function (b) { b.classList.add('visivel'); });
+    });
+  })();
+</script>
+</body>
+</html>
